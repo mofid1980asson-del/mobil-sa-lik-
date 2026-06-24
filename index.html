@@ -1,47 +1,174 @@
-<!DOCTYPE html>
+
+html<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobil Longevity Asistanı</title>
+    <title>Longevity & Preventive Health Intelligence</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f9f4; color: #333; margin: 0; padding: 15px; }
-        .box { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        h1 { color: #2e7d32; font-size: 22px; text-align: center; }
-        label { display: block; margin-top: 15px; font-weight: bold; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        button { background: #2e7d32; color: white; border: none; width: 100%; padding: 14px; margin-top: 20px; border-radius: 6px; font-size: 16px; font-weight: bold; }
-        .res { margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 6px; display: none; }
-        .alert { font-size: 11px; color: #666; margin-top: 20px; text-align: center; }
+        :root {
+            --bg-color: #0b131a;
+            --card-bg: #13222d;
+            --accent-green: #00e676;
+            --accent-blue: #00b0ff;
+            --text-main: #ffffff;
+            --text-muted: #90a4ae;
+            --border-color: #213743;
+        }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 15px; }
+        .app-container { max-width: 600px; background: var(--card-bg); margin: 20px auto; padding: 25px; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); border: 1px solid var(--border-color); }
+        h1 { color: var(--accent-green); font-size: 24px; margin-bottom: 5px; text-shadow: 0 0 10px rgba(0,230,118,0.2); text-align: center; }
+        .subtitle { color: var(--text-muted); font-size: 13px; text-align: center; margin-bottom: 25px; }
+        .section-title { color: var(--accent-blue); font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-top: 25px; font-weight: bold; text-align: left; }
+        label { display: block; text-align: left; margin: 12px 0 5px; font-size: 14px; font-weight: 600; color: #e0e0e0; }
+        input, select { width: 100%; padding: 12px; border: 1px solid var(--border-color); background-color: #0c1820; color: white; border-radius: 10px; box-sizing: border-box; font-size: 15px; transition: 0.3s; }
+        input:focus, select:focus { border-color: var(--accent-green); outline: none; box-shadow: 0 0 8px rgba(0,230,118,0.2); }
+        button { background: linear-gradient(135deg, #00e676, #00b0ff); color: #000; border: none; padding: 15px; margin-top: 25px; width: 100%; border-radius: 12px; font-size: 16px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,230,118,0.4); }
+        .result-box { margin-top: 25px; padding: 20px; background: #0c1820; border-left: 5px solid var(--accent-green); text-align: left; display: none; border-radius: 10px; border: 1px solid var(--border-color); border-left-width: 5px; }
+        .result-box h3 { margin-top: 0; color: var(--accent-green); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .disclaimer { font-size: 11px; color: var(--text-muted); margin-top: 30px; line-height: 1.5; background: #1a0f0f; padding: 12px; border-radius: 8px; border: 1px solid #3a1a1a; text-align: justify; }
+        .report-item { margin-bottom: 15px; line-height: 1.4; font-size: 14px; }
+        .report-item strong { color: #ffeb3b; }
     </style>
 </head>
 <body>
-<div class="box">
-    <h1>🧬 Mobil Sağlık Asistanı</h1>
-    <label>Yaşınız:</label>
-    <input type="number" id="age">
-    <label>Günlük Uyku Süresi:</label>
-    <select id="sleep">
-        <option value="az">6 saatten az</option>
-        <option value="iyi">7-8 saat</option>
+
+<div class="app-container">
+    <h1>🧬 HEALTH INTELLIGENCE v2.0</h1>
+    <div class="subtitle">Kişiselleştirilmiş Önleyici Sağlık & Biyolojik Ömür Optimizasyonu</div>
+    
+    <!-- BÖLÜM 1: DEMOGRAFİ & YAŞAM TARZI -->
+    <div class="section-title">📊 Demografi & Yaşam Tarzi</div>
+    
+    <label>Kronolojik Yaşınız:</label>
+    <input type="number" id="yas" placeholder="Örn: 38">
+
+    <label>Günlük Uyku Süreniz:</label>
+    <select id="uyku">
+        <option value="az">6 saat veya daha az (Yetersiz)</option>
+        <option value="ideal">7 - 8 saat (Optimal)</option>
+        <option value="cok">9 saat veya daha fazla (Aşırı)</option>
     </select>
-    <button onclick="hesapla()">Analiz Et</button>
-    <div id="res" class="res"></div>
-    <p class="alert">⚠️ Tıbbi tavsiye değildir. Doktorunuza danışın.</p>
+
+    <label>Haftalık Egzersiz / Spor Süresi:</label>
+    <select id="spor">
+        <option value="hiç">Hareketsiz Yaşam (0 dakika)</option>
+        <option value="orta">Hafif/Orta Düzey (1-150 dakika)</option>
+        <option value="aktif">İdeal Longevity Hedefi (150+ dakika HIIT/Direnç)</option>
+    </select>
+
+    <label>Sigara / Tütün Kullanımı:</label>
+    <select id="sigara">
+        <option value="hayir">Hayır, hiç kullanmıyorum</option>
+        <option value="evet">Evet, aktif kullanıyorum</option>
+    </select>
+
+    <label>Günlük Temiz Su Tüketimi:</label>
+    <select id="su">
+        <option value="az">1.5 litreden az</option>
+        <option value="ideal">2 - 3 litre arası</option>
+    </select>
+
+    <!-- BÖLÜM 2: BİYOMARKER ANALİZİ -->
+    <div class="section-title">🩸 Biyomarker & Kan Laboratuvar Verileri</div>
+    <div style="color:var(--text-muted); font-size:11px; margin-bottom:10px;">Bildiğiniz değerleri girin, bilmediklerinizi boş bırakabilirsiniz.</div>
+
+    <label>D Vitamini Seviyesi (ng/mL):</label>
+    <input type="number" id="dvit" placeholder="Örn: 25">
+
+    <label>Vitamin B12 Seviyesi (pg/mL):</label>
+    <input type="number" id="b12" placeholder="Örn: 350">
+
+    <label>Açlık Kan Şekeri (mg/dL):</label>
+    <input type="number" id="seker" placeholder="Örn: 95">
+
+    <label>Total Kolesterol Seviyesi (mg/dL):</label>
+    <input type="number" id="kolesterol" placeholder="Örn: 210">
+
+    <button onclick="aiAnaliziniCalistir()">Yapay Zeka Hücresel Analizini Başlat</button>
+
+    <div id="sonucKutusu" class="result-box"></div>
+
+    <div class="disclaimer">
+        ⚠️ <strong>MANDATARY TIBBİ YASAL UYARI:</strong> Bu yapay zeka tabanlı asistan sadece genel sağlıklı yaşam, önleyici tıp ve longevity (uzun ömür) konseptleri üzerine genel bilgilendirme sağlama amacıyla tasarlanmıştır. Kesinlikle kişiselleştirilmiş veya klinik bir medikal teşhis, tedavi planı ya da reçete reçeteleme amacı taşımaz. Uygulamanın çıkardığı raporları baz alarak beslenme, takviye veya ilaç düzeninizde herhangi bir değişiklik yapmadan önce kesinlikle uzman bir tıp hekimine (doktora) danışmalı ve fiziksel laboratuvar etiketleriniz ile tahlil sonuçlarınızı resmi kurumlarda doğrulatmalısınız.
+    </div>
 </div>
+
 <script>
-function hesapla() {
-    let age = document.getElementById('age').value;
-    let sleep = document.getElementById('sleep').value;
-    let res = document.getElementById('res');
-    if(!age) { alert("Yaş giriniz"); return; }
-    let txt = "<h3>Raporunuz:</h3>";
-    if(sleep === "az") { txt += "• Az uyku hücresel yaşlanmayı hızlandırır. Hedef 7-8 saat olmalı.<br><br>"; }
-    else { txt += "• Uyku süreniz harika. Melatonin yaşlanmayı geciktirir.<br><br>"; }
-    if(age > 40) { txt += "• 40 yaş üstü için Akdeniz diyeti ve hareketli yaşam ömrü uzatır."; }
-    else { txt += "• Genç yaşlarda kas kütlesini korumak uzun ömür için en önemli yatırımdır."; }
-    res.innerHTML = txt; res.style.display = "block";
-}
-</script>
-</body>
-</html>
+function aiAnaliziniCalistir() {
+    let yas = document.getElementById('yas').value;
+    let uyku = document.getElementById('uyku').value;
+    let spor = document.getElementById('spor').value;
+    let sigara = document.getElementById('sigara').value;
+    let su = document.getElementById('su').value;
+    let dvit = document.getElementById('dvit').value;
+    let b12 = document.getElementById('b12').value;
+    let seker = document.getElementById('seker').value;
+    let kolesterol = document.getElementById('kolesterol').value;
+    let sonucDiv = document.getElementById('sonucKutusu');
+    
+    if(!yas) {
+        alert("Lütfen analiz algoritmasının çalışabilmesi için kronolojik yaşınızı giriniz.");
+        return;
+    }
+
+    let rapor = "<h3>📊 Biyolojik Optimizasyon ve Longevity Raporu</h3>";
+    
+    // 1. YAŞAM TARZI İNCELEME
+    rapor += "<div class='report-item'>⚡ <strong>Hücresel Yaşlanma Profili:</strong> ";
+    if(sigara === "evet") {
+        rapor += "Aktif tütün kullanımı telomer kısalmasını ciddi derecede hızlandırmakta ve hücresel oksidatif stresi artırmaktadır. Anti-aging protokollerinin işe yaraması için tütün eliminasyonu 1. önceliktir. ";
+    } else {
+        rapor += "Sigara kullanmamanız hücresel DNA hasar riskinizi minimal düzeyde tutuyor, harika. ";
+    }
+    
+    if(uyku === "az") {
+        rapor += "Her gece 6 saatten az uyumak sirkadiyen ritmi bozar, büyüme hormonu (GH) salınımını ve otofajiyi (hücresel temizlik) baskılar. ";
+    } else if(uyku === "ideal") {
+        rapor += "7-8 saatlik optimal uyku düzeniniz melatonin sentezini maksimize ederek güçlü bir gece antioksidan koruması sağlar. ";
+    }
+    rapor += "</div>";
+
+    // 2. FİZİKSEL AKTİVİTE & SU
+    rapor += "<div class='report-item'>🏃‍♂️ <strong>Mitokondri ve Metabolik Sağlık:</strong> ";
+    if(spor === "hiç") {
+        rapor += "Hareketsiz yaşam mitokondriyal disfonksiyona ve kas kaybına (sarkopeni) yol açar. Uzun ömür için haftalık 150 dakikalık zone 2 kardiyo ve direnç egzersizlerine başlamanız biyolojik yaşınızı düşürecektir. ";
+    } else if(spor === "aktif") {
+        rapor += "Haftalık 150+ dk egzersiz hedefi mitokondriyal biyojenezi uyarır, insülin hassasiyetini zirvede tutar. Hücresel motorlarınız çok iyi çalışıyor! ";
+    }
+    
+    if(su === "az") {
+        rapor += "Yetersiz su tüketimi hücresel dehidrasyona sebep olarak toksin atılımını yavaşlatır, günlük 2-3 litre suya yaklaşmalısınız.";
+    }
+    rapor += "</div>";
+
+    // 3. LABORATUVAR BİYOMARKER DEĞERLENDİRMELERİ
+    rapor += "<div class='report-item'>🩸 <strong>Gelişmiş Biyomarker Analizleri:</strong><br>";
+    
+    // D Vitamini
+    if(dvit) {
+        if(dvit < 30) {
+            rapor += "• <em>D Vitamini ("+dvit+" ng/mL):</em> Klinik olarak yetersiz. Standart laboratuvarda 30 normal sayılsa da, longevity tıp ekolünde <strong>optimal hedef 40-60 ng/mL</strong> arasıdır. Bağışıklık, gen ekspresyonu ve kemik sağlığı için hekiminizle takviye konuşabilirsiniz.<br>";
+        } else {
+            rapor += "• <em>D Vitamini ("+dvit+" ng/mL):</em> Harika! Hücresel homeostaz ve immun sistem koruması için ideal aralıktasınız.<br>";
+        }
+    } else {
+        rapor += "• <em>D Vitamini:</em> Ölçülmemiş. Bağışıklık ve epigenetik regülasyon için en kısa sürede ölçtürmeniz önerilir.<br>";
+    }
+
+    // B12 Vitamini
+    if(b12) {
+        if(b12 < 500) {
+            rapor += "• <em>Vitamin B12 ("+b12+" pg/mL):</em> Normal sınırlarda ancak uzun ömür ve optimal bilişsel performans (beyin sağlığı), DNA metilasyonu için <strong>hedef 500-800 pg/mL</strong> aralığında olmalıdır. Beslenmenize metilkobalamin kaynakları eklemeyi araştırın.<br>";
+        } else {
+            rapor += "• <em>Vitamin B12 ("+b12+" pg/mL):</em> Sinir sistemi koruması ve metilasyon döngüsü için mükemmel seviyede.<br>";
+        }
+    }
+
+    // Açlık Şekeri
+    if(seker) {
+        if(seker >= 100) {
+            rapor += "• <em>Açlık Kan Şekeri ("+seker+" mg/dL):</em> Prediyabet (gizli şeker) veya insülin direnci riski. Glikasyon (hücrelerin şekerle kaplanması) yaşlanmayı en çok tetikleyen unsurdur. Karbonhidratı azaltıp aralıklı orucu (intermittent fasting) araştırmalısınız.<br>";
+        } else if(seker < 85) {
+يُرجى استخدام الرمز البرمجي بحذر.rapor += "• Açlık Kan Şekeri ("+seker+" mg/dL): İdeal metabolik esneklik. Hücreleriniz glukozu çok verimli yönetiyor.";} else {rapor += "• Açlık Kan Şekeri ("+seker+" mg/dL): Normal ancak longevity hedefi olan 70-85 mg/dL bandına çekmek için rafine şekeri hayatınızdan çıkarmalısınız.";}}// Kolesterolif(kolesterol) {if(kolesterol > 200) {rapor += "• Total Kolesterol ("+kolesterol+" mg/dL): Sınırda veya yüksek. Kardiyovasküler (kalp-damar) sağlığınızı korumak adına beslenmenizde omega-3 yağ asitlerini artırmalı, doymuş yağları azaltmalı ve doktorunuzdan detaylı ApoB veya LDL parçacık testi istemelisiniz.";} else {rapor += "• Total Kolesterol ("+kolesterol+" mg/dL): Damar sağlığı ve kardiyovasküler risk yönetimi açısından güvenli aralıktasınız.";}}rapor += "";// 4. ÖMÜR UZATMA STRATEJİSİrapor += "🎯 Yapay Zeka Longevity Stratejisi: Yaşınız ("+yas+") göz önüne alındığında, hücresel temizliği (otofaji) tetiklemek ve NAD+ mekanizmalarını genç tutmak adına beslenmenize sirtuin aktivatörleri (Örn: resveratrol, quercetin) eklemeyi, senede en az 2 kez detaylı biyomarker paneli yaptırmayı ve tıp hekiminiz gözetiminde kişiselleştirilmiş bir uzun yaşam planı çizmeyi unutmayın.";sonucDiv.innerHTML = rapor;sonucDiv.style.display = "block";}
